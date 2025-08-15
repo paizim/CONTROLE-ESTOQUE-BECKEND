@@ -1,7 +1,7 @@
 import sqlite3
 
 class Gestao:
-    def _init_(self, banco):
+    def __init__(self, banco):
         self.conn = sqlite3.connect(banco)
         self.criar_tabela_estoque()
     def criar_tabela_estoque(self):
@@ -14,7 +14,7 @@ class Gestao:
              )       
         ''')
         self.conn.commit()
-    def selecionar_produto(self, produto, quantidade):
+    def adicionar_produto(self, produto, quantidade):
         cursor = self.conn.cursor() 
         cursor.execute(
             "INSERT INTO estoque (produto, quantidade) VALUES (?,?)", (produto, quantidade))
@@ -22,8 +22,7 @@ class Gestao:
     
     def remover_produto(self, produto, quantidade):
          cursor = self.conn.cursor() 
-         cursor.execute(
-             "SELECT quantidade FROM estoque WHERE produto=? WHERE produto=?",(produto,))
+         cursor.execute("SELECT quantidade FROM estoque WHERE produto=?", (produto,))
          resultado = cursor.fetchone()
          if resultado:
              estoque_atual = resultado[0]
@@ -67,4 +66,5 @@ print(f"Produtos em estoque: {produto_em_estoque}")
         
     
                  
+
         
